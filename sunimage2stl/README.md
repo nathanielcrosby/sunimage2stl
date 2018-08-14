@@ -57,6 +57,8 @@ To Do any of the Following just add these lines:
   3DSunModeling.3DFullSunPlotting.3DPlot.image_to_flat_stl(date, scale=100., width=100., depth=100., height=20.)
   ```
   
+  
+  
   2D Partial Sun .stl File:
   ```
   file = '2012_04_16__17_38_56_12__SDO_AIA_AIA_304' #.png
