@@ -26,7 +26,7 @@ Currently, the full Sun Model is exclusively for XRT data while the partial sun 
   
 ### Examples
 
-##### Full Sun
+#### Full Sun
 
 All Full Sun Commands Start With:
 ```
@@ -60,7 +60,7 @@ To Do any of the Following just add these lines:
   3DSunModeling.3DFullSunPlotting.3DPlot.image_to_flat_stl(date, scale=100., width=100., depth=100., height=20.)
   ```
   
-##### Partial Sun  
+#### Partial Sun  
   
   2D Partial Sun .stl File:
   ```
