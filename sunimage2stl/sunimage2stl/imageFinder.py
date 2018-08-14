@@ -3,7 +3,8 @@ import subprocess
 import os
 
 def file_finder(date, local=True, index=0):
-	''' 
+	'''
+	
 	This function takes in the date from the 3Dplot.py. It then uses this date to 
 	access the website that contains all of the XRT images. It uses a findFiles.sh bash 
 	script that attempts to download images of a certain url. It attempts to match an 
@@ -15,23 +16,35 @@ def file_finder(date, local=True, index=0):
 	date = date
 	print("initial date is: %s" % date)
 	dirname = []
+	
 	year_file = date[0:4]
 	month_file = date[5:7]
 	day_file = date[8:10]
-
+		
+	#This is the path that the file is in and that the image will download to
+	dir_path = os.path.dirname(os.path.realpath(__file__))
+	
 	internet_dir = 'solar.physics.montana.edu/HINODE/XRT/SCIA/synop_official/'
-	local_dir = '/archive/hinode/xrt/level2/synoptics/'
+	local_dir = '/archive/hinode/xrt/level2/synoptics/'	
 	
 	if (local):
 		dir = local_dir
 	else:
 		dir = internet_dir
-
+	
 	counter = 0
 	while len(dirname) <= 0:
 		#calling bash script
 		if (not local):
-			subprocess.call(['bash', 'findFiles.sh', year_file, month_file, day_file])
+			#This uses the wget function to access the web page. 
+			#-r means it does so recursively so that it gets all the files in the directory
+			#-np means no parent, so that it does not ascend to the parent directory and download all the images
+			#-A means accept list
+			#3 inputs from imageFinder.py are given that specify the date and name of the image
+			command = 'wget -r -np -A .jp2 http://solar.physics.montana.edu/HINODE/XRT/SCIA/synop_official/' + year_file + '/' + month_file + '/' + day_file + '/'
+			
+			os.system(command)
+	
 		date_file = year_file + '/' + month_file + '/' + day_file + '/'
 		#loop through files in the directory of year, month, and day finding all files/dirs
 		for dirnames in os.walk(dir+date_file):
@@ -83,4 +96,7 @@ def file_finder(date, local=True, index=0):
 	#uses sunpy to read .jp2 file into data and header
 	data = io.read_file(dir+date_file+Hname+'/'+filename)
 	header = io.read_file_header(dir+date_file+Hname+'/'+filename)
+	#removes the downloaded files from the online archive
+	os.system('rm -r solar.physics.montana.edu')
+	os.system('rm -r wget-log')
 	return data, header

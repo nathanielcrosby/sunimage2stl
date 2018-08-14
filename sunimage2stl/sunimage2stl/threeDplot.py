@@ -174,7 +174,6 @@ def stl_mesh_maker(x, y, z, interval=1, fname='test1.stl'):
 	
 	new_mesh = mesh.Mesh(vector_data)
 	new_mesh.save(fname)
-	subprocess.call(['bash', 'filemover.sh', fname])
 
 def TwoDPlot(image, figx=10., figy=10., save=False, file='2d.png'):
 	'''
@@ -439,15 +438,15 @@ centerX, centerY, image, scale_bool, r, scale_factor, exp=1., buffer=False, eart
 	Normalizes the values about that threshold. This should only be used with the 
 	image_to_xyz_mesh, all parameters are the same.
 	
-	This returns an array called add that contains the amount the prominences should come out
+	This returns an array called add that contains the amount the bight features should come out
 	'''
 	
 	print('calculating protrusions...')
 	
 	sun_radius = 432169.
 	earth_radius = 6371. #km
-	earth_scale_y = 35
-	earth_scale_x = image.shape[1] - 35
+	earth_scale_y = 10
+	earth_scale_x = xDimen - 10
 	earth_radius_px = (earth_radius / sun_radius) * r
 	earth_box = border_width
 	
@@ -460,28 +459,41 @@ centerX, centerY, image, scale_bool, r, scale_factor, exp=1., buffer=False, eart
 			if ((buffer) and (np.sqrt((xpoint-centerX)**2 + (ypoint-centerY)**2) 
 			> (r - buffer_zone))):
 				image[xpoint][ypoint]=(float(image[xpoint][ypoint]) / buffer_val)
-	
+			
 			if (earth):
-				if (np.sqrt((xpoint - earth_scale_x)**2 
-				+ (ypoint - earth_scale_y)**2) <= earth_radius_px):
+				if ((np.sqrt(((xpoint - earth_scale_x)**2) 
+				+ ((ypoint - earth_scale_y)**2))) <= earth_radius_px):
 					row.append(.1 * scale_factor)
 				elif (((np.absolute(xpoint - (earth_scale_x - earth_scale_y)) < earth_box) & (ypoint < (2. * earth_scale_y))) 
 				or (((np.absolute(ypoint - (2. * earth_scale_y)) < earth_box)) & (xpoint > (earth_scale_x - earth_scale_y)))):
 					row.append(.05 * scale_factor)
-			elif ((flat_base) & (np.sqrt((xpoint-centerX)**2 + (ypoint-centerY)**2) 
-			> (r))):
-				row.append(0.)
-			elif ((image[xpoint][ypoint] < minimum_intensity_threshold)):
-			 	row.append(0.)			
-			elif(scale_bool):
-				row.append(scale(image[xpoint][ypoint], scale_factor, 
-				minimum_intensity_threshold, exp=exp))
+				elif ((flat_base) & (np.sqrt((xpoint-centerX)**2 + (ypoint-centerY)**2) 
+				> (r))):
+					row.append(0.)	
+				elif ((image[xpoint][ypoint] < minimum_intensity_threshold)):
+					row.append(0.)			
+				elif(scale_bool):
+					row.append(scale(image[xpoint][ypoint], scale_factor, 
+					minimum_intensity_threshold, exp=exp))
+				else:
+					row.append(log_scale(image[xpoint][ypoint], scale_factor, 
+					minimum_intensity_threshold))
 			else:
-				row.append(log_scale(image[xpoint][ypoint], scale_factor, 
-				minimum_intensity_threshold))
-		add.append(row)
+				if ((flat_base) & (np.sqrt((xpoint-centerX)**2 + (ypoint-centerY)**2) 
+				> (r))):
+					row.append(0.)	
+				elif ((image[xpoint][ypoint] < minimum_intensity_threshold)):
+					row.append(0.)			
+				elif(scale_bool):
+					row.append(scale(image[xpoint][ypoint], scale_factor, 
+					minimum_intensity_threshold, exp=exp))
+				else:
+					row.append(log_scale(image[xpoint][ypoint], scale_factor, 
+					minimum_intensity_threshold))
+				
+		add.append(np.asarray(row))
 	
-	return add
+	return np.asarray(add)
 	
 def final_height_addition(xDimen, yDimen, centerX, centerY, centerX_len, centerY_len, 
 r_len, r, x_init, y_init, z_init, add):
@@ -684,7 +696,7 @@ r = 460.
 
 image, header, x, y, z = image_to_xyz_mesh(date, r=r, base_len=228.6, offset_x=0., offset_y=0., 
 scale_factor_percent=0.25, minimum_intensity_threshold=0.45, buffer_zone=0., buffer_val=1.1,
-buffer=True, exp=2.0, scale_bool=True, earth=True, interval=2., local=True, index=2, flat_base=False)
+buffer=True, exp=2.0, scale_bool=True, earth=True, interval=2., local=False, index=2, flat_base=False)
 
 stl_mesh_maker(x, y, z, interval=1, fname='test1.stl')
 '''
