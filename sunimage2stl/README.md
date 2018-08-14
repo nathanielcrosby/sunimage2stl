@@ -25,6 +25,9 @@ Currently, the full Sun Model is exclusively for XRT data while the partial sun 
   5. go into a python window and ensure everything can be imported and is working properly by testing some examples
   
 ### Examples
+
+##### Full Sun
+
 All Full Sun Commands Start With:
 ```
   date = '2014/05/16'
@@ -57,7 +60,7 @@ To Do any of the Following just add these lines:
   3DSunModeling.3DFullSunPlotting.3DPlot.image_to_flat_stl(date, scale=100., width=100., depth=100., height=20.)
   ```
   
-  
+##### Partial Sun  
   
   2D Partial Sun .stl File:
   ```
