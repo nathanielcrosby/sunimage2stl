@@ -19,6 +19,8 @@ setup(
     description='A module for creating solar stl files',  # Required
 
     long_description=long_description,  # Optional
+    
+    long_description_content_type="text/markdown",
 
     url='https://github.com/nathanielcrosby/sunimage2stl',  # Optional
 
