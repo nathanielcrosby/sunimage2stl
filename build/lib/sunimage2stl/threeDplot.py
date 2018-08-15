@@ -370,6 +370,7 @@ def log_scale(intensity, scale_factor, minimum_intensity_threshold):
 	
 	returns the scaled value (float)
 	'''
+	
 	return ((scale_factor * ((10.**((intensity - minimum_intensity_threshold) 
 	/ (1. - minimum_intensity_threshold))) - 1)) * (1./9.))
 
@@ -388,6 +389,7 @@ def scale(intensity, scale_factor, minimum_intensity_threshold, exp=1):
 	
 	returns the scaled value
 	'''
+	
 	return (scale_factor * ((intensity - minimum_intensity_threshold) 
 	/ (1. - minimum_intensity_threshold))**exp)
 

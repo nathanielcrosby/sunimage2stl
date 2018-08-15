@@ -1,0 +1,7 @@
+.*
+*.jpeg
+*.egg-info
+*.pyc
+solar.physics.montana.edu
+/dist/
+/build/
