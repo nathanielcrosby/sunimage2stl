@@ -31,6 +31,7 @@ Currently, the full Sun Model is exclusively for XRT data while the partial sun 
   
 ### Examples
 See wiki....
+https://github.com/nathanielcrosby/sunimage2stl/wiki
 
 ## Authors
   Nathaniel Crosby
