@@ -18,11 +18,12 @@ Currently, the full Sun Model is exclusively for XRT data while the partial sun 
   - imageio
   
 ### Installing
-  1. ```git clone https://github.com/nathanielcrosby/3DSunModeling.git``` OR Download
-  2. ```cd sunimage2stl``` into the newly dowloaded folder
-  3. ```ls``` to make sure you see setup.py
-  4. ```python setup.py install```
-  5. go into a python window and ensure everything can be imported and is working properly by testing some examples
+  1. ```mkdir sunimage2stl```
+  2. ```cd sunimage2stl```
+  3.  ```git clone https://github.com/nathanielcrosby/3DSunModeling.git``` OR Download
+  4. ```ls``` to make sure you see setup.py
+  5. ```python setup.py install```
+  6. go into a python window and ensure everything can be imported and is working properly by testing some examples
   
 ### Examples
 
